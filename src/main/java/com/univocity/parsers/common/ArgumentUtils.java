@@ -35,6 +35,7 @@ public class ArgumentUtils {
 	 * An empty String array.
 	 */
 	public static final String[] EMPTY_STRING_ARRAY = new String[0];
+	public static boolean[] trimBranchCoverage = new boolean[12];
 
 	public static final NormalizedString[] EMPTY_NORMALIZED_STRING_ARRAY = new NormalizedString[0];
 
@@ -583,33 +584,59 @@ public class ArgumentUtils {
 	 */
 	public static String trim(String input, boolean left, boolean right) {
 		if (input.length() == 0 || !left && !right) {
+			trimBranchCoverage[0] = true;
 			return input;
+		}else{
+			trimBranchCoverage[1] = true;
 		}
 		int begin = 0;
+
 		while (left && begin < input.length() && input.charAt(begin) <= ' ') {
+			trimBranchCoverage[2] = true;
 			begin++;
 		}
+
 		if (begin == input.length()) {
+			trimBranchCoverage[3] = true;
 			return "";
+		}else{
+			trimBranchCoverage[4] = true;
 		}
 
 		int end = begin + input.length() - 1;
 		if (end >= input.length()) {
+			trimBranchCoverage[5] = true;
 			end = input.length() - 1;
+		}else{
+			trimBranchCoverage[6] = true;
 		}
 
 		while (right && input.charAt(end) <= ' ') {
+			trimBranchCoverage[7] = true;
 			end--;
 		}
 
 		if (begin == end) {
+			trimBranchCoverage[8] = true;
 			return "";
+		}else{
+			trimBranchCoverage[9] = true;
 		}
 
 		if (begin == 0 && end == input.length() - 1) {
+			trimBranchCoverage[10] = true;
 			return input;
+		}else{
+			trimBranchCoverage[11] = true;
 		}
 
+		int branchesCovered = 0;
+		for(int i = 0; i < trimBranchCoverage.length; i++){
+			if(trimBranchCoverage[i]){
+				branchesCovered++;
+			}
+		}
+		System.out.println("Branches covered in trim: " + branchesCovered);
 		return input.substring(begin, end + 1);
 	}
 
