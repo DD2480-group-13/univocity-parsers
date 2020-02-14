@@ -36,6 +36,8 @@ public class ArgumentUtils {
 	 */
 	public static final String[] EMPTY_STRING_ARRAY = new String[0];
 	public static boolean[] trimBranchCoverage = new boolean[12];
+	public static boolean[] indexOfBranchCoverage = new boolean[17];
+
 
 	public static final NormalizedString[] EMPTY_NORMALIZED_STRING_ARRAY = new NormalizedString[0];
 
@@ -168,29 +170,52 @@ public class ArgumentUtils {
 	 */
 	private static int indexOf(Object[] array, Object element, int from) {
 		if (array == null) {
+			indexOfBranchCoverage[0] = true;
 			throw new NullPointerException("Null array");
+		}else{
+			indexOfBranchCoverage[1] = true;
 		}
+
 		if (element == null) {
+			indexOfBranchCoverage[2] = true;
 			for (int i = from; i < array.length; i++) {
+				indexOfBranchCoverage[3] = true;
 				if (array[i] == null) {
+					indexOfBranchCoverage[4] = true;
 					return i;
+				}else{
+					indexOfBranchCoverage[5] = true;
 				}
 			}
 		} else {
+			indexOfBranchCoverage[6] = true;
 			if (element.getClass() != array.getClass().getComponentType()) {
+				indexOfBranchCoverage[7] = true;
 				throw new IllegalStateException("a");
+			}else{
+				indexOfBranchCoverage[8] = true;
 			}
 			if (element instanceof String && array instanceof String[]) {
+				indexOfBranchCoverage[9] = true;
 				for (int i = from; i < array.length; i++) {
+					indexOfBranchCoverage[10] = true;
 					String e = String.valueOf(array[i]);
 					if (element.toString().equalsIgnoreCase(e)) {
+						indexOfBranchCoverage[11] = true;
 						return i;
+					}else{
+						indexOfBranchCoverage[12] = true;
 					}
 				}
 			} else {
+				indexOfBranchCoverage[13] = true;
 				for (int i = from; i < array.length; i++) {
+					indexOfBranchCoverage[14] = true;
 					if (element.equals(array[i])) {
+						indexOfBranchCoverage[15] = true;
 						return i;
+					}else{
+						indexOfBranchCoverage[16] = true;
 					}
 				}
 			}

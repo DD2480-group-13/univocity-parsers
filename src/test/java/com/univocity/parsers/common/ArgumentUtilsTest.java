@@ -24,10 +24,16 @@ public class ArgumentUtilsTest {
 
 
     @AfterTest
-    public void printing() {
+    public void printingOfCoverage() {
         System.out.println("=== DIY branch coverage for trim() ===");
         for(int i = 0; i < ArgumentUtils.trimBranchCoverage.length; i++){
             System.out.println("Trim branch " + i + " = " +ArgumentUtils.trimBranchCoverage[i]);
+        }
+        System.out.println("======================================\n");
+
+        System.out.println("=== DIY branch coverage for indexOf() ===");
+        for(int i = 0; i < ArgumentUtils.indexOfBranchCoverage.length; i++){
+            System.out.println("Trim branch " + i + " = " +ArgumentUtils.indexOfBranchCoverage[i]);
         }
         System.out.println("======================================");
     }
