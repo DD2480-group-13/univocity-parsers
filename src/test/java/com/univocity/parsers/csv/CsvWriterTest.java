@@ -623,4 +623,14 @@ public class CsvWriterTest extends CsvParserTest {
 		assertEquals(out.toString(), "value 1,value 2\n");
 	}
 
+	@Test
+	public void whitespaceOnlyFieldWithoutQuotesShouldWriteEmpty() throws Exception {
+		CsvWriterSettings settings = new CsvWriterSettings();
+		settings.setIgnoreLeadingWhitespaces(false);
+
+		CsvWriter writer = new CsvWriter(settings);
+		String result = writer.writeRowToString(new Object[]{"empty->", "   "});
+
+		assertEquals(result, "empty->,");
+	}
 }
