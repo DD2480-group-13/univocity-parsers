@@ -39,6 +39,8 @@ public class AnnotationHelper {
 	private static Class<? extends Annotation> lastProcessedAnnotationType;
 	private static Annotation lastAnnotationFound;
 
+  public static boolean[] indexOfBranchCoverageFormatterSettings = new boolean[25];
+
 	private AnnotationHelper() {
 
 	}
@@ -409,62 +411,79 @@ public class AnnotationHelper {
 	 */
 	public static void applyFormatSettings(Object formatter, String[] propertiesAndValues) {
 		if (propertiesAndValues.length == 0) {
+      indexOfBranchCoverageFormatterSettings[0] = true;
 			return;
-		}
+		} else indexOfBranchCoverageFormatterSettings[1] = true;
 
 		Map<String, String> values = new HashMap<String, String>();
 		for (String setting : propertiesAndValues) {
+      indexOfBranchCoverageFormatterSettings[2] = true;
 			if (setting == null) {
+        indexOfBranchCoverageFormatterSettings[3] = true;
 				continue;
-			}
+			} else indexOfBranchCoverageFormatterSettings[4] = true;
 			String[] pair = setting.split("=");
 			if (pair.length != 2) {
+        indexOfBranchCoverageFormatterSettings[5] = true;
 				throw new DataProcessingException("Illegal format setting '" + setting + "' among: " + Arrays.toString(propertiesAndValues));
-			}
+			} else indexOfBranchCoverageFormatterSettings[6] = true;
 
 			values.put(pair[0], pair[1]);
 		}
 
 		try {
+      indexOfBranchCoverageFormatterSettings[7] = true;
 			for (PropertyWrapper property : BeanHelper.getPropertyDescriptors(formatter.getClass())) {
+        indexOfBranchCoverageFormatterSettings[8] = true;
 				String name = property.getName();
 				String value = values.remove(name);
 				if (value != null) {
+          indexOfBranchCoverageFormatterSettings[9] = true;
 					invokeSetter(formatter, property, value);
-				}
+				} else indexOfBranchCoverageFormatterSettings[10] = true;
 
 				if ("decimalFormatSymbols".equals(property.getName())) {
+          indexOfBranchCoverageFormatterSettings[11] = true;
 					DecimalFormatSymbols modifiedDecimalSymbols = new DecimalFormatSymbols();
 					boolean modified = false;
 					try {
+            indexOfBranchCoverageFormatterSettings[12] = true;
 						for (PropertyWrapper prop : BeanHelper.getPropertyDescriptors(modifiedDecimalSymbols.getClass())) {
-							value = values.remove(prop.getName());
+              indexOfBranchCoverageFormatterSettings[13] = true;
+						  value = values.remove(prop.getName());
 							if (value != null) {
+                indexOfBranchCoverageFormatterSettings[14] = true;
 								invokeSetter(modifiedDecimalSymbols, prop, value);
 								modified = true;
-							}
+							} else indexOfBranchCoverageFormatterSettings[15] = true;
 						}
 
 						if (modified) {
+              indexOfBranchCoverageFormatterSettings[16] = true;
 							Method writeMethod = property.getWriteMethod();
 							if (writeMethod != null) {
+                indexOfBranchCoverageFormatterSettings[17] = true;
 								writeMethod.invoke(formatter, modifiedDecimalSymbols);
 							} else {
+                indexOfBranchCoverageFormatterSettings[18] = true;
 								throw new IllegalStateException("No write method defined for property " + property.getName());
 							}
-						}
+						} else indexOfBranchCoverageFormatterSettings[19] = true;
 					} catch (Throwable ex) {
+            indexOfBranchCoverageFormatterSettings[20] = true;
 						throw new DataProcessingException("Error trying to configure decimal symbols of formatter '" + formatter.getClass() + '.', ex);
 					}
-				}
+				} indexOfBranchCoverageFormatterSettings[21] = true;
 			}
 		} catch (Exception e) {
+      indexOfBranchCoverageFormatterSettings[22] = true;
 			//ignore and proceed
 		}
 
 		if (!values.isEmpty()) {
+      indexOfBranchCoverageFormatterSettings[23] = true;
 			throw new DataProcessingException("Cannot find properties in formatter of type '" + formatter.getClass() + "': " + values);
-		}
+		} else indexOfBranchCoverageFormatterSettings[24] = true;
 	}
 
 	private static void invokeSetter(Object formatter, PropertyWrapper property, final String value) {
