@@ -56,6 +56,8 @@ public class BeanConversionProcessor<T> extends DefaultConversionProcessor {
 	private ColumnMapping columnMapper = new ColumnMapping();
 	private boolean mappingsForWritingValidated = false;
 
+	public static boolean[] validateMappingsBranchCoverage = new boolean[7];
+
 	/**
 	 * Initializes the BeanConversionProcessor with the annotated bean class. If any method of the given class has annotations,
 	 * only the setter methods will be used (getters will be ignored), making this processor useful mostly for parsing into
@@ -312,23 +314,30 @@ public class BeanConversionProcessor<T> extends DefaultConversionProcessor {
 			int index = mapping.getIndex();
 
 			if (index != -1) {
+				validateMappingsBranchCoverage[0] = true;
 				if (mappedIndexes.containsKey(index)) {
+					validateMappingsBranchCoverage[1] = true;
 					duplicateIndexes.add(mapping);
 					duplicateIndexes.add(mappedIndexes.get(index));
 				} else {
+					validateMappingsBranchCoverage[2] = true;
 					mappedIndexes.put(index, mapping);
 				}
 			} else {
+				validateMappingsBranchCoverage[3] = true;
 				if (mappedNames.containsKey(name)) {
+					validateMappingsBranchCoverage[4] = true;
 					duplicateNames.add(mapping);
 					duplicateNames.add(mappedNames.get(name));
 				} else {
+					validateMappingsBranchCoverage[5] = true;
 					mappedNames.put(name, mapping);
 				}
 			}
 		}
 
 		if (duplicateIndexes.size() > 0 || duplicateNames.size() > 0) {
+			validateMappingsBranchCoverage[6] = true;
 			StringBuilder msg = new StringBuilder("Conflicting field mappings defined in annotated class: " + this.getBeanClass().getName());
 			for (FieldMapping mapping : duplicateIndexes) {
 				msg.append("\n\tIndex: '").append(mapping.getIndex()).append("' of  ").append(describeField(mapping.getTarget()));

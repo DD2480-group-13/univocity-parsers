@@ -48,6 +48,8 @@ public class CsvWriter extends AbstractWriter<CsvWriterSettings> {
 	private Set<Integer> quotedColumns;
 	private FieldSelector quotedFieldSelector;
 
+	public static boolean[] appendBranchCoverage = new boolean[41];
+
 	/**
 	 * The CsvWriter supports all settings provided by {@link CsvWriterSettings}, and requires this configuration to be properly initialized.
 	 * <p><strong>Important: </strong> by not providing an instance of {@link java.io.Writer} to this constructor, only the operations that write to Strings are available.</p>
@@ -304,103 +306,155 @@ public class CsvWriter extends AbstractWriter<CsvWriterSettings> {
 
 	private boolean append(int columnIndex, boolean isElementQuoted, boolean allowTrim, String element) {
 		if (element == null) {
+			appendBranchCoverage[0] = true;
 			if (nullValue == null) {
+				appendBranchCoverage[1] = true;
 				return isElementQuoted;
+			} else {
+				appendBranchCoverage[2] = true;
 			}
 			element = nullValue;
+		} else {
+			appendBranchCoverage[3] = true;
 		}
 
 		int start = 0;
 		if (allowTrim && this.ignoreLeading) {
+			appendBranchCoverage[4] = true;
 			start = skipLeadingWhitespace(whitespaceRangeStart, element);
+		} else {
+			appendBranchCoverage[5] = true;
 		}
 
 		final int length = element.length();
 		if (start < length && (element.charAt(start) == quoteChar || columnIndex == 0 && element.charAt(0) == comment)) {
+			appendBranchCoverage[6] = true;
 			isElementQuoted = true;
+		} else {
+			appendBranchCoverage[7] = true;
 		}
 
 		if (isElementQuoted) {
+			appendBranchCoverage[8] = true;
 			if (usingNullOrEmptyValue && length >= 2) {
+				appendBranchCoverage[9] = true;
 				if (element.charAt(0) == quoteChar && element.charAt(length - 1) == quoteChar) {
+					appendBranchCoverage[10] = true;
 					appender.append(element);
 					return false;
 				} else {
+					appendBranchCoverage[11] = true;
 					appendQuoted(start, allowTrim, element);
 					return true;
 				}
 			} else {
+				appendBranchCoverage[12] = true;
 				appendQuoted(start, allowTrim, element);
 				return true;
 			}
+		} else {
+			appendBranchCoverage[13] = true;
 		}
 
 		int i = start;
 		char ch = '\0';
 
 		if (multiDelimiter == null) {
+			appendBranchCoverage[14] = true;
 			for (; i < length; i++) {
+				appendBranchCoverage[15] = true;
 				ch = element.charAt(i);
 				if (ch == quoteChar || ch == delimiter || ch == escapeChar || (ch < maxTrigger && quotationTriggers[ch])) {
+					appendBranchCoverage[16] = true;
 					appender.append(element, start, i);
 					start = i + 1;
 
 					if (ch == quoteChar || ch == escapeChar) {
+						appendBranchCoverage[17] = true;
 						if (quoteElement(i, element)) {
+							appendBranchCoverage[18] = true;
 							appendQuoted(i, allowTrim, element);
 							return true;
 						} else if (escapeUnquoted) {
+							appendBranchCoverage[19] = true;
 							appendQuoted(i, allowTrim, element);
 						} else {
+							appendBranchCoverage[20] = true;
 							appender.append(element, i, length);
 							if (allowTrim && ignoreTrailing && element.charAt(length - 1) <= ' ' && whitespaceRangeStart < element.charAt(length - 1)) {
+								appendBranchCoverage[21] = true;
 								appender.updateWhitespace();
 							}
 						}
 						return isElementQuoted;
 					} else if (ch == escapeChar && inputNotEscaped && escapeEscape != '\0' && escapeUnquoted) {
+						appendBranchCoverage[22] = true;
 						appender.append(escapeEscape);
 					} else if (ch == delimiter || ch < maxTrigger && quotationTriggers[ch]) {
+						appendBranchCoverage[23] = true;
 						appendQuoted(i, allowTrim, element);
 						return true;
+					} else {
+						appendBranchCoverage[24] = true;
 					}
 					appender.append(ch);
+				} else {
+					appendBranchCoverage[25] = true;
 				}
 			}
 		} else {
+			appendBranchCoverage[26] = true;
 			for (; i < length; i++) {
+				appendBranchCoverage[27] = true;
 				ch = element.charAt(i);
 				if (ch == quoteChar || (ch == multiDelimiter[0] && matchMultiDelimiter(element, i + 1)) || ch == escapeChar || (ch < maxTrigger && quotationTriggers[ch])) {
+					appendBranchCoverage[28] = true;
 					appender.append(element, start, i);
 					start = i + 1;
 
 					if (ch == quoteChar || ch == escapeChar) {
+						appendBranchCoverage[29] = true;
 						if (quoteElement(i, element)) {
+							appendBranchCoverage[30] = true;
 							appendQuoted(i, allowTrim, element);
 							return true;
 						} else if (escapeUnquoted) {
+							appendBranchCoverage[31] = true;
 							appendQuoted(i, allowTrim, element);
 						} else {
+							appendBranchCoverage[32] = true;
 							appender.append(element, i, length);
 							if (allowTrim && ignoreTrailing && element.charAt(length - 1) <= ' ' && whitespaceRangeStart < element.charAt(length - 1)) {
+								appendBranchCoverage[33] = true;
 								appender.updateWhitespace();
+							} else {
+								appendBranchCoverage[34] = true;
 							}
 						}
 						return isElementQuoted;
 					} else if (ch == escapeChar && inputNotEscaped && escapeEscape != '\0' && escapeUnquoted) {
+						appendBranchCoverage[35] = true;
 						appender.append(escapeEscape);
 					} else if ((ch == multiDelimiter[0] && matchMultiDelimiter(element, i + 1))|| ch < maxTrigger && quotationTriggers[ch]) {
+						appendBranchCoverage[36] = true;
 						appendQuoted(i, allowTrim, element);
 						return true;
+					} else {
+						appendBranchCoverage[37] = true;
 					}
 					appender.append(ch);
+				} else {
+					appendBranchCoverage[38] = true;
 				}
 			}
 		}
 
 		appender.append(element, start, i);
 		if (allowTrim && ch <= ' ' && ignoreTrailing && whitespaceRangeStart < ch) {
+			appendBranchCoverage[39] = true;
 			appender.updateWhitespace();
+		} else {
+			appendBranchCoverage[40] = true;
 		}
 		return isElementQuoted;
 	}
