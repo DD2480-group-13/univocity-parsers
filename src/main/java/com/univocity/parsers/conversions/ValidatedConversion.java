@@ -34,7 +34,7 @@ public class ValidatedConversion implements Conversion<Object, Object> {
 	private final Set<String> noneOf;
 	private final Matcher matcher;
 	private final Validator[] validators;
-	public static boolean[] validateBranchCoverage = new boolean[22];
+	public static boolean[] validateBranchCoverage = new boolean[23];
 	public ValidatedConversion() {
 		this(false, false, null, null, null);
 	}
