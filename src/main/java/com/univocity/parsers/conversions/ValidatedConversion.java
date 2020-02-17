@@ -34,7 +34,7 @@ public class ValidatedConversion implements Conversion<Object, Object> {
 	private final Set<String> noneOf;
 	private final Matcher matcher;
 	private final Validator[] validators;
-
+	public static boolean[] validateBranchCoverage = new boolean[22];
 	public ValidatedConversion() {
 		this(false, false, null, null, null);
 	}
@@ -88,66 +88,89 @@ public class ValidatedConversion implements Conversion<Object, Object> {
 		DataValidationException e = null;
 		String str = null;
 		if (value == null) {
+			validateBranchCoverage[0] = true;
 			if (nullable) {
+				validateBranchCoverage[1] = true;
 				if (noneOf != null && noneOf.contains(null)) {
+					validateBranchCoverage[2] = true;
 					e = new DataValidationException("Value '{value}' is not allowed.");
 				} else {
+					validateBranchCoverage[3] = true;
 					return;
 				}
 			} else {
+				validateBranchCoverage[4] = true;
 				if (oneOf != null && oneOf.contains(null)) {
+					validateBranchCoverage[5] = true;
 					return;
 				} else {
+					validateBranchCoverage[6] = true;
 					e = new DataValidationException("Null values not allowed.");
 				}
 			}
 		} else {
+			validateBranchCoverage[7] = true;
 			str = String.valueOf(value);
 			if (str.trim().isEmpty()) {
+				validateBranchCoverage[8] = true;
 				if (allowBlanks) {
+					validateBranchCoverage[9] = true;
 					if (noneOf != null && noneOf.contains(str)) {
+						validateBranchCoverage[10] = true;
 						e = new DataValidationException("Value '{value}' is not allowed.");
 					} else {
+						validateBranchCoverage[11] = true;
 						return;
 					}
 				} else {
+					validateBranchCoverage[12] = true;
 					if (oneOf != null && oneOf.contains(str)) {
+						validateBranchCoverage[13] = true;
 						return;
 					} else {
+						validateBranchCoverage[14] = true;
 						e = new DataValidationException("Blanks are not allowed. '{value}' is blank.");
 					}
 				}
 			}
 
 			if (matcher != null && e == null) {
+				validateBranchCoverage[15] = true;
 				boolean match;
 				synchronized (matcher) {
 					match = matcher.reset(str).matches();
 				}
 				if (!match) {
+					validateBranchCoverage[16] = true;
 					e = new DataValidationException("Value '{value}' does not match expected pattern: '" + regexToMatch + "'");
 				}
 			}
 		}
 
 		if (oneOf != null && !oneOf.contains(str)) {
+			validateBranchCoverage[17] = true;
 			e = new DataValidationException("Value '{value}' is not allowed. Expecting one of: " + oneOf);
 		}
 
 		if (e == null && noneOf != null && noneOf.contains(str)) {
+			validateBranchCoverage[18] = true;
 			e = new DataValidationException("Value '{value}' is not allowed.");
 		}
 
 		for (int i = 0; e == null && i < validators.length; i++) {
+			validateBranchCoverage[19] = true;
 			String error = validators[i].validate(value);
 			if (error != null && !error.trim().isEmpty()) {
+				validateBranchCoverage[20] = true;
 				e = new DataValidationException("Value '{value}' didn't pass validation: " + error);
 			}
 		}
 
 		if (e != null) {
+			validateBranchCoverage[21] = true;
 			e.setValue(value);
 			throw e;
 		}
+		validateBranchCoverage[22] = true;
 	}
 }
