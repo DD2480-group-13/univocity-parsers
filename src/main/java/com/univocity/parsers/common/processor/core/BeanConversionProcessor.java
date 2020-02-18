@@ -56,7 +56,7 @@ public class BeanConversionProcessor<T> extends DefaultConversionProcessor {
 	private ColumnMapping columnMapper = new ColumnMapping();
 	private boolean mappingsForWritingValidated = false;
 
-	public static boolean[] validateMappingsBranchCoverage = new boolean[7];
+	public static boolean[] validateMappingsBranchCoverage = new boolean[10];
 
 	/**
 	 * Initializes the BeanConversionProcessor with the annotated bean class. If any method of the given class has annotations,
@@ -310,39 +310,42 @@ public class BeanConversionProcessor<T> extends DefaultConversionProcessor {
 		Set<FieldMapping> duplicateIndexes = new HashSet<FieldMapping>();
 
 		for (FieldMapping mapping : parsedFields) {
+			validateMappingsBranchCoverage[0] = true;
 			NormalizedString name = mapping.getFieldName();
 			int index = mapping.getIndex();
 
 			if (index != -1) {
-				validateMappingsBranchCoverage[0] = true;
+				validateMappingsBranchCoverage[1] = true;
 				if (mappedIndexes.containsKey(index)) {
-					validateMappingsBranchCoverage[1] = true;
+					validateMappingsBranchCoverage[2] = true;
 					duplicateIndexes.add(mapping);
 					duplicateIndexes.add(mappedIndexes.get(index));
 				} else {
-					validateMappingsBranchCoverage[2] = true;
+					validateMappingsBranchCoverage[3] = true;
 					mappedIndexes.put(index, mapping);
 				}
 			} else {
-				validateMappingsBranchCoverage[3] = true;
+				validateMappingsBranchCoverage[4] = true;
 				if (mappedNames.containsKey(name)) {
-					validateMappingsBranchCoverage[4] = true;
+					validateMappingsBranchCoverage[5] = true;
 					duplicateNames.add(mapping);
 					duplicateNames.add(mappedNames.get(name));
 				} else {
-					validateMappingsBranchCoverage[5] = true;
+					validateMappingsBranchCoverage[6] = true;
 					mappedNames.put(name, mapping);
 				}
 			}
 		}
 
 		if (duplicateIndexes.size() > 0 || duplicateNames.size() > 0) {
-			validateMappingsBranchCoverage[6] = true;
+			validateMappingsBranchCoverage[7] = true;
 			StringBuilder msg = new StringBuilder("Conflicting field mappings defined in annotated class: " + this.getBeanClass().getName());
 			for (FieldMapping mapping : duplicateIndexes) {
+				validateMappingsBranchCoverage[8] = true;
 				msg.append("\n\tIndex: '").append(mapping.getIndex()).append("' of  ").append(describeField(mapping.getTarget()));
 			}
 			for (FieldMapping mapping : duplicateNames) {
+				validateMappingsBranchCoverage[9] = true;
 				msg.append("\n\tName: '").append(mapping.getFieldName()).append("' of ").append(describeField(mapping.getTarget()));
 			}
 			throw new DataProcessingException(msg.toString());
