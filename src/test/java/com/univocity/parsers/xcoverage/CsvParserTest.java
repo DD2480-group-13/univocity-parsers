@@ -24,6 +24,7 @@ import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 import com.univocity.parsers.csv.TestUtils;
 import org.testng.annotations.*;
+import com.univocity.parsers.csv.UnescapedQuoteHandling;
 
 import java.io.*;
 import java.util.*;
