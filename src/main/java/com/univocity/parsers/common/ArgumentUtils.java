@@ -192,18 +192,44 @@ public class ArgumentUtils {
 				throw new IllegalStateException("a");
 			}
 			if (element instanceof String && array instanceof String[]) {
-				for (int i = from; i < array.length; i++) {
-					String e = String.valueOf(array[i]);
-					if (element.toString().equalsIgnoreCase(e)) {
-						return i;
-					}
-				}
+				return getIndexOfString(array, element, from);
 			} else {
-				for (int i = from; i < array.length; i++) {
-					if (element.equals(array[i])) {
-						return i;
-					}
-				}
+				return getIndexOfObject(array, element, from);
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Get index of of an element in array that is equal to the input element of the function.
+	 * Returns -1 if an equal element is not found.
+	 * @param array
+	 * @param element
+	 * @param from
+	 * @return int
+	 */
+	private static Integer getIndexOfObject(Object[] array, Object element, int from) {
+		for (int i = from; i < array.length; i++) {
+			if (element.equals(array[i])) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Get index of of an element in array that is equal to the input element of the function.
+	 * Returns -1 if an equal element is not found.
+	 * @param array
+	 * @param element
+	 * @param from
+	 * @return int
+	 */
+	private static Integer getIndexOfString(Object[] array, Object element, int from) {
+		for (int i = from; i < array.length; i++) {
+			String e = String.valueOf(array[i]);
+			if (element.toString().equalsIgnoreCase(e)) {
+				return i;
 			}
 		}
 		return -1;
@@ -598,20 +624,13 @@ public class ArgumentUtils {
 			return input;
 		}
 		int begin = 0;
-		while (left && begin < input.length() && input.charAt(begin) <= ' ') {
-			begin++;
-		}
-		if (begin == input.length()) {
-			return "";
+		if(left){
+			begin = getBeginIndex(input);
 		}
 
-		int end = begin + input.length() - 1;
-		if (end >= input.length()) {
-			end = input.length() - 1;
-		}
-
-		while (right && input.charAt(end) <= ' ') {
-			end--;
+		int end = input.length();
+		if(right){
+			end = getEndIndex(input, end);
 		}
 
 		if (begin == end) {
@@ -623,6 +642,37 @@ public class ArgumentUtils {
 		}
 
 		return input.substring(begin, end + 1);
+	}
+
+	/**
+	 * Returns index of first character in input that is not ' '
+	 * @param input String
+	 * @return
+	 */
+	public static int getBeginIndex(String input){
+		int begin = 0;
+		while (begin < input.length() && input.charAt(begin) <= ' ') {
+			begin++;
+		}
+		return begin;
+	}
+
+	/**
+	 * Returns index of last character in input that is not ' '
+	 * @param input String
+	 * @param begin int
+	 * @return
+	 */
+	public static int getEndIndex(String input, int begin){
+		int end = begin + input.length() - 1;
+		if (end >= input.length()) {
+			end = input.length() - 1;
+		}
+
+		while (input.charAt(end) <= ' ') {
+			end--;
+		}
+		return end;
 	}
 
 	/**
