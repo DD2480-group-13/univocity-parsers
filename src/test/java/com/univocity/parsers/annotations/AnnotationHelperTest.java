@@ -19,9 +19,12 @@ import com.univocity.parsers.annotations.helpers.AnnotationHelper;
 
 import java.io.*;
 import java.lang.reflect.Constructor;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.univocity.parsers.annotations.meta.*;
+import com.univocity.parsers.common.DataProcessingException;
+import com.univocity.parsers.common.DataProcessingExceptionTest;
 import com.univocity.parsers.common.processor.*;
 import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
@@ -62,4 +65,17 @@ public class AnnotationHelperTest {
 				"thisisctest;;\n");
 	}
 
+	@Test(expectedExceptions = DataProcessingException.class, expectedExceptionsMessageRegExp = "Illegal format setting .*")
+  public void testApplyFormatSettingsOnIllegalFormatSetting() {
+    SimpleDateFormat sdf = new SimpleDateFormat();
+    String [] str = {"abc"};
+    AnnotationHelper.applyFormatSettings(sdf, str);
+	}
+
+  @Test(expectedExceptions = DataProcessingException.class, expectedExceptionsMessageRegExp = "Cannot find properties .*")
+	public void testApplyFormatSettingsOnMissingProperties() {
+    SimpleDateFormat sdf = new SimpleDateFormat();
+    String [] str = {"abc=aba"};
+    AnnotationHelper.applyFormatSettings(sdf, str);
+  }
 }
