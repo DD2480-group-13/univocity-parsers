@@ -69,4 +69,15 @@ public class ArgumentUtilsTest {
         answer = ArgumentUtils.trim("test",false,false );
         assertEquals(answer,"test");
     }
+
+    /**
+     * Test the ArgumentUtils::trim function with a string of just spaces to test that
+     * the branch that returns "" if the (begin == input.length) branch is covered.
+     */
+    @Test
+    public void testTrim3() {
+        String answer;
+        answer = ArgumentUtils.trim("        ",true,false );
+        assertEquals(answer,"");
+    }
 }
