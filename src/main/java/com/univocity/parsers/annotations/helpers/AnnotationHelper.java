@@ -40,6 +40,7 @@ public class AnnotationHelper {
 	private static Annotation lastAnnotationFound;
 
   public static boolean[] indexOfBranchCoverageFormatterSettings = new boolean[25];
+  public static boolean[] indexOfBranchCoverageInvokeSetter = new boolean[14];
 
 	private AnnotationHelper() {
 
@@ -489,36 +490,47 @@ public class AnnotationHelper {
 	private static void invokeSetter(Object formatter, PropertyWrapper property, final String value) {
 		Method writeMethod = property.getWriteMethod();
 		if (writeMethod == null) {
+      indexOfBranchCoverageInvokeSetter[0] = true;
 			DataProcessingException exception = new DataProcessingException("Cannot set property '" + property.getName() + "' of formatter '" + formatter.getClass() + "' to '{value}'. No setter defined");
 			exception.setValue(value);
 			throw exception;
-		}
+		} else indexOfBranchCoverageInvokeSetter[1] = true;
 		Class<?> parameterType = writeMethod.getParameterTypes()[0];
 		Object parameterValue = null;
 		if (parameterType == String.class) {
+      indexOfBranchCoverageInvokeSetter[2] = true;
 			parameterValue = value;
 		} else if (parameterType == Integer.class || parameterType == int.class) {
+      indexOfBranchCoverageInvokeSetter[3] = true;
 			parameterValue = Integer.parseInt(value);
 		} else if (parameterType == Character.class || parameterType == char.class) {
+      indexOfBranchCoverageInvokeSetter[4] = true;
 			parameterValue = value.charAt(0);
 		} else if (parameterType == Currency.class) {
+      indexOfBranchCoverageInvokeSetter[5] = true;
 			parameterValue = Currency.getInstance(value);
 		} else if (parameterType == Boolean.class || parameterType == boolean.class) {
+      indexOfBranchCoverageInvokeSetter[6] = true;
 			parameterValue = Boolean.valueOf(value);
 		} else if (parameterType == TimeZone.class) {
+      indexOfBranchCoverageInvokeSetter[7] = true;
 			parameterValue = TimeZone.getTimeZone(value);
 		} else if (parameterType == DateFormatSymbols.class) {
+      indexOfBranchCoverageInvokeSetter[8] = true;
 			parameterValue = DateFormatSymbols.getInstance(new Locale(value));
-		}
+		} else indexOfBranchCoverageInvokeSetter[9] = true;
 		if (parameterValue == null) {
+      indexOfBranchCoverageInvokeSetter[10] = true;
 			DataProcessingException exception = new DataProcessingException("Cannot set property '" + property.getName() + "' of formatter '" + formatter.getClass() + ". Cannot convert '{value}' to instance of " + parameterType);
 			exception.setValue(value);
 			throw exception;
-		}
+		} else indexOfBranchCoverageInvokeSetter[11] = true;
 
 		try {
 			writeMethod.invoke(formatter, parameterValue);
+      indexOfBranchCoverageInvokeSetter[12] = true;
 		} catch (Throwable e) {
+      indexOfBranchCoverageInvokeSetter[13] = true;
 			DataProcessingException exception = new DataProcessingException("Error setting property '" + property.getName() + "' of formatter '" + formatter.getClass() + ", with '{parameterValue}' (converted from '{value}')", e);
 			exception.setValue("parameterValue", parameterValue);
 			exception.setValue(value);
