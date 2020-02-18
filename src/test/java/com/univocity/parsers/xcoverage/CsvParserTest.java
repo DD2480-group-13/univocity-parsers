@@ -13,12 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.univocity.parsers.csv;
+package com.univocity.parsers.xcoverage;
 
 import com.univocity.parsers.*;
 import com.univocity.parsers.common.*;
 import com.univocity.parsers.common.processor.*;
 import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.csv.CsvFormat;
+import com.univocity.parsers.csv.CsvParser;
+import com.univocity.parsers.csv.CsvParserSettings;
+import com.univocity.parsers.csv.TestUtils;
 import org.testng.annotations.*;
 
 import java.io.*;
@@ -29,7 +33,7 @@ import static org.testng.Assert.*;
 
 public class CsvParserTest extends ParserTestCase {
 
-	@AfterTest
+	@AfterSuite
 	public void printingOfCoverage() {
 		System.out.println("=== DIY branch coverage for CsvParser::parseQuotedValueMultiDelimiter ===");
 		for(int i = 0; i < CsvParser.parseQuotedValueMultiDelimiterBranchCoverage.length; i++){

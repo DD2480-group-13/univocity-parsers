@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.univocity.parsers.annotations;
+package com.univocity.parsers.xcoverage;
 
 import com.univocity.parsers.annotations.helpers.AnnotationHelper;
 
@@ -30,7 +30,7 @@ import static org.testng.Assert.*;
 
 public class AnnotationHelperTest {
 
-  @AfterTest
+  @AfterSuite
   public void printing() {
     System.out.println("=== DIY branch coverage for applyFormatSettings ===");
     int count = 0;

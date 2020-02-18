@@ -1,7 +1,8 @@
-package com.univocity.parsers.common.processor;
+package com.univocity.parsers.xcoverage;
 
 
 import com.univocity.parsers.common.processor.core.BeanConversionProcessor;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
@@ -11,7 +12,7 @@ public class BeanConversionProcessorTest {
     }
 
 
-    @AfterTest
+    @AfterSuite
     public void printingOfCoverage() {
 
         System.out.println("=== DIY branch coverage for validateMappings() ===");

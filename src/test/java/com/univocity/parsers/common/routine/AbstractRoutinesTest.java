@@ -23,6 +23,7 @@ import com.univocity.parsers.csv.*;
 import com.univocity.parsers.examples.*;
 import com.univocity.parsers.fixed.*;
 import com.univocity.parsers.tsv.*;
+import com.univocity.parsers.xcoverage.CsvParserTest;
 import org.testng.annotations.*;
 
 import java.io.*;

@@ -1,5 +1,7 @@
-package com.univocity.parsers.csv;
+package com.univocity.parsers.xcoverage;
 
+import com.univocity.parsers.csv.CsvWriter;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
@@ -9,7 +11,7 @@ public class AppendTest {
     }
 
 
-    @AfterTest
+    @AfterSuite
     public void printingOfCoverage() {
 
         System.out.println("=== DIY branch coverage for append() ===");

@@ -18,6 +18,7 @@ package com.univocity.parsers.issues.github;
 import com.univocity.parsers.common.*;
 import com.univocity.parsers.csv.*;
 import com.univocity.parsers.examples.*;
+import com.univocity.parsers.xcoverage.CsvParserTest;
 import org.testng.annotations.*;
 
 import java.io.*;

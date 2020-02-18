@@ -1,8 +1,10 @@
-package com.univocity.parsers.common;
+package com.univocity.parsers.xcoverage;
 
+import com.univocity.parsers.common.ArgumentUtils;
 import com.univocity.parsers.fixed.FixedWidthFields;
 import com.univocity.parsers.fixed.FixedWidthWriter;
 import com.univocity.parsers.fixed.FixedWidthWriterSettings;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
@@ -23,7 +25,7 @@ public class ArgumentUtilsTest {
     }
 
 
-    @AfterTest
+    @AfterSuite
     public void printingOfCoverage() {
         System.out.println("=== DIY branch coverage for trim() ===");
         for(int i = 0; i < ArgumentUtils.trimBranchCoverage.length; i++){
