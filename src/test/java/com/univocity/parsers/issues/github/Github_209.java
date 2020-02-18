@@ -290,6 +290,13 @@ public class Github_209 {
 		String line = write(delimiter, new String[]{"A'a", "B" + delimiter + "'", delimiter + "'C"});
 		assertEquals(line, "A'a" + delimiter + "'B" + delimiter + "'''" + delimiter + "'" + delimiter + "''C'");
 	}
+
+	@Test
+	public void testMultiDelimiterWritingInValuesWithQuotesBeforeDelimiter() {
+		String delimiter = "##";
+		String line = write(delimiter, new String[]{"A", "B'" + "B" + delimiter});
+		assertEquals(line, "A" + delimiter + "'B" + "''" + "B" + delimiter + "'");
+	}
 }
 
 

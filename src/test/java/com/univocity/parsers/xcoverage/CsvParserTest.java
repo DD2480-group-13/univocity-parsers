@@ -890,4 +890,23 @@ public class CsvParserTest extends ParserTestCase {
 		csvParser.beginParsing(csv);
 		assertEquals(csvParser.getDetectedFormat().getDelimiter(), ',');
 	}
+
+	/**
+	 * Tests unescaped quotes handling for multi-delimiter inputs.
+	 * Unescaped quotes should be treated as part of the field for quoted values.
+	 */
+	@Test
+	public void unescapedQuoteInsideQuotedValueWithMultiDelimiter() {
+		final CsvParserSettings settings = new CsvParserSettings();
+		settings.getFormat().setDelimiter(";;");
+		settings.setKeepQuotes(false);
+		settings.setParseUnescapedQuotes(true);
+		settings.setUnescapedQuoteHandling(UnescapedQuoteHandling.STOP_AT_CLOSING_QUOTE);
+		final CsvParser csvParser = new CsvParser(settings);
+		String[] result = csvParser.parseLine(
+				"\"contains a \" (<- quote) then more\""
+						+ ";;" + "\"<- multi-delimiter\"");
+		assertEquals(result[0], "contains a \" (<- quote) then more");
+		assertEquals(result[1], "<- multi-delimiter");
+	}
 }
