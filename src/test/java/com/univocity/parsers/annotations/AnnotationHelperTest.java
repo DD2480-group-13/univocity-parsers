@@ -39,6 +39,17 @@ public class AnnotationHelperTest {
       System.out.println("Branch " + i + " = " + AnnotationHelper.indexOfBranchCoverageFormatterSettings[i]);
     }
     System.out.println("Coverage: " + (int)(count/(double)AnnotationHelper.indexOfBranchCoverageFormatterSettings.length*100) + "%");
+    System.out.println("========================================\n\n");
+
+    System.out.println("=== DIY branch coverage for InvokeSetter ===");
+    count = 0;
+    for (int i = 0; i < AnnotationHelper.indexOfBranchCoverageInvokeSetter.length; i++) {
+      if(AnnotationHelper.indexOfBranchCoverageInvokeSetter[i]) count++;
+      System.out.println("Branch " + i + " = " + AnnotationHelper.indexOfBranchCoverageInvokeSetter[i]);
+    }
+    System.out.println("Coverage: " + (int)(count/(double)AnnotationHelper.indexOfBranchCoverageInvokeSetter.length*100) + "%");
+    System.out.println("========================================");
+
   }
 
 	@Test
