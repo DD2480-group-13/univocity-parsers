@@ -156,6 +156,18 @@ public class ArgumentUtils {
 		return -1;
 	}
 
+
+	/**
+	 * Public interface for indexOf for testing purposes
+	 * @param array
+	 * @param element
+	 * @param from
+	 * @return
+	 */
+	public static int publicIndexOf(Object[] array, Object element, int from){
+		return indexOf(array,element,from);
+	}
+
 	/**
 	 * Returns the index of an element in a given array.
 	 *
