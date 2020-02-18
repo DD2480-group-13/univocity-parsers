@@ -49,6 +49,7 @@ public class CsvWriter extends AbstractWriter<CsvWriterSettings> {
 	private FieldSelector quotedFieldSelector;
 
 	public static boolean[] appendBranchCoverage = new boolean[41];
+	public static boolean[] processRowBranchCoverage = new boolean[23];
 
 	/**
 	 * The CsvWriter supports all settings provided by {@link CsvWriterSettings}, and requires this configuration to be properly initialized.
@@ -198,25 +199,41 @@ public class CsvWriter extends AbstractWriter<CsvWriterSettings> {
 	@Override
 	protected void processRow(Object[] row) {
 		if (recordCount == 0L && quotedFieldSelector != null) {
+			processRowBranchCoverage[0] = true;
 			int[] quotedIndexes = quotedFieldSelector.getFieldIndexes(headers);
 			if (quotedIndexes.length > 0) {
+				processRowBranchCoverage[1] = true;
 				quotedColumns = new HashSet<Integer>();
 				for (int idx : quotedIndexes) {
+					processRowBranchCoverage[2] = true;
 					quotedColumns.add(idx);
 				}
+			} else {
+				processRowBranchCoverage[3] = true;
 			}
+		} else {
+			processRowBranchCoverage[4] = true;
 		}
 		for (int i = 0; i < row.length; i++) {
+			processRowBranchCoverage[5] = true;
 			if (i != 0) {
+				processRowBranchCoverage[6] = true;
 				if (multiDelimiter == null) {
+					processRowBranchCoverage[7] = true;
 					appendToRow(delimiter);
 				} else {
+					processRowBranchCoverage[8] = true;
 					appendToRow(multiDelimiter);
 				}
+			} else {
+				processRowBranchCoverage[9] = true;
 			}
 
 			if (dontProcessNormalizedNewLines) {
+				processRowBranchCoverage[10] = true;
 				appender.enableDenormalizedLineEndings(false);
+			} else {
+				processRowBranchCoverage[11] = true;
 			}
 
 			boolean allowTrim = allowTrim(i);
@@ -227,27 +244,40 @@ public class CsvWriter extends AbstractWriter<CsvWriterSettings> {
 
 			//skipped all whitespaces and wrote nothing
 			if (appender.length() == originalLength && !usingNullOrEmptyValue) {
+				processRowBranchCoverage[12] = true;
 				if (isElementQuoted) {
+					processRowBranchCoverage[13] = true;
 					if (nextElement == null) {
+						processRowBranchCoverage[14] = true;
 						append(i,false, allowTrim, nullValue);
 					} else {
+						processRowBranchCoverage[15] = true;
 						append(i,true, allowTrim, emptyValue);
 					}
 				} else if (nextElement == null) {
+					processRowBranchCoverage[16] = true;
 					append(i,false, allowTrim, nullValue);
 				} else {
+					processRowBranchCoverage[17] = true;
 					append(i,false, allowTrim, emptyValue);
 				}
+			} else {
+				processRowBranchCoverage[18] = true;
 			}
 
 			if (isElementQuoted) {
+				processRowBranchCoverage[19] = true;
 				appendToRow(quoteChar);
 				appendValueToRow();
 				appendToRow(quoteChar);
 				if (dontProcessNormalizedNewLines) {
+					processRowBranchCoverage[20] = true;
 					appender.enableDenormalizedLineEndings(true);
+				} else {
+					processRowBranchCoverage[21] = true;
 				}
 			} else {
+				processRowBranchCoverage[22] = true;
 				appendValueToRow();
 			}
 		}
