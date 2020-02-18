@@ -27,6 +27,26 @@ import static org.testng.Assert.*;
 
 public class CsvWriterTest extends CsvParserTest {
 
+	@AfterTest
+	public void printingOfCoverage() {
+		System.out.println("=== DIY branch coverage for CsvWriter::processRow ===");
+		for(int i = 0; i < CsvWriter.processRowBranchCoverage.length; i++){
+			System.out.println("Branch " + i + ": " + CsvWriter.processRowBranchCoverage[i]);
+		}
+		System.out.println("Total branch coverage: " + getRatio(CsvWriter.processRowBranchCoverage));
+		System.out.println("======================================");
+	}
+
+	private double getRatio(boolean[] branchCoverage){
+		int tot = 0;
+		for (boolean b : branchCoverage){
+			if (b){
+				tot += 1;
+			}
+		}
+		return (double) tot / (double) branchCoverage.length;
+	}
+
 	@DataProvider
 	public Object[][] lineSeparatorProvider() {
 		return new Object[][]{
