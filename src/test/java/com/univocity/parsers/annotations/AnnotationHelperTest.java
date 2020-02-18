@@ -30,6 +30,17 @@ import static org.testng.Assert.*;
 
 public class AnnotationHelperTest {
 
+  @AfterTest
+  public void printing() {
+    System.out.println("=== DIY branch coverage for applyFormatSettings ===");
+    int count = 0;
+    for (int i = 0; i < AnnotationHelper.indexOfBranchCoverageFormatterSettings.length; i++) {
+      if(AnnotationHelper.indexOfBranchCoverageFormatterSettings[i]) count++;
+      System.out.println("Branch " + i + " = " + AnnotationHelper.indexOfBranchCoverageFormatterSettings[i]);
+    }
+    System.out.println("Coverage: " + (int)(count/(double)AnnotationHelper.indexOfBranchCoverageFormatterSettings.length*100) + "%");
+  }
+
 	@Test
 	public void shouldCreateAnnotationHelper() throws Exception {
 		Constructor<AnnotationHelper> c = AnnotationHelper.class.getDeclaredConstructor();
