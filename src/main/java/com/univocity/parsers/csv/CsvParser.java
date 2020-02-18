@@ -60,6 +60,8 @@ public final class CsvParser extends AbstractParser<CsvParserSettings> {
 	private char[] delimiters;
 	private int match = 0;
 
+	public static boolean[] parseQuotedValueMultiDelimiterBranchCoverage = new boolean[46];
+
 	/**
 	 * The CsvParser supports all settings provided by {@link CsvParserSettings}, and requires this configuration to be properly initialized.
 	 *
@@ -680,61 +682,100 @@ public final class CsvParser extends AbstractParser<CsvParserSettings> {
 
 	private void parseQuotedValueMultiDelimiter() {
 		if (prev != '\0' && parseUnescapedQuotesUntilDelimiter) {
+			parseQuotedValueMultiDelimiterBranchCoverage[0] = true;
 			if (quoteHandling == SKIP_VALUE) {
+				parseQuotedValueMultiDelimiterBranchCoverage[1] = true;
 				skipValue();
 				return;
+			} else {
+				parseQuotedValueMultiDelimiterBranchCoverage[2] = true;
 			}
 			if (!keepQuotes) {
+				parseQuotedValueMultiDelimiterBranchCoverage[3] = true;
 				output.appender.prepend(quote);
+			} else {
+				parseQuotedValueMultiDelimiterBranchCoverage[4] = true;
 			}
 			ch = input.nextChar();
 			output.trim = ignoreTrailingWhitespace;
 			appendUntilMultiDelimiter();
 		} else {
+			parseQuotedValueMultiDelimiterBranchCoverage[5] = true;
 			if (keepQuotes && prev == '\0') {
+				parseQuotedValueMultiDelimiterBranchCoverage[6] = true;
 				output.appender.append(quote);
+			} else {
+				parseQuotedValueMultiDelimiterBranchCoverage[7] = true;
 			}
 			ch = input.nextChar();
 
 			if (trimQuotedLeading && ch <= ' ' && output.appender.length() == 0) {
+				parseQuotedValueMultiDelimiterBranchCoverage[8] = true;
 				while ((ch = input.nextChar()) <= ' ') ;
+			} else {
+				parseQuotedValueMultiDelimiterBranchCoverage[9] = true;
 			}
 
 			while (true) {
+				parseQuotedValueMultiDelimiterBranchCoverage[10] = true;
 				if (prev == quote && (ch <= ' ' && whitespaceRangeStart < ch || ch == newLine)) {
+					parseQuotedValueMultiDelimiterBranchCoverage[11] = true;
 					break;
+				} else {
+					parseQuotedValueMultiDelimiterBranchCoverage[12] = true;
 				}
 				if (matchDelimiter()) {
+					parseQuotedValueMultiDelimiterBranchCoverage[13] = true;
 					if(keepQuotes){
+						parseQuotedValueMultiDelimiterBranchCoverage[14] = true;
 						output.appender.append(quote);
+					} else {
+						parseQuotedValueMultiDelimiterBranchCoverage[15] = true;
 					}
 					return;
+				} else {
+					parseQuotedValueMultiDelimiterBranchCoverage[16] = true;
 				}
 
 				if (ch != quote && ch != quoteEscape) {
+					parseQuotedValueMultiDelimiterBranchCoverage[17] = true;
 					if (prev == quote) { //unescaped quote detected
+						parseQuotedValueMultiDelimiterBranchCoverage[18] = true;
 						if (handleUnescapedQuote()) {
+							parseQuotedValueMultiDelimiterBranchCoverage[19] = true;
 							if (quoteHandling == SKIP_VALUE) {
+								parseQuotedValueMultiDelimiterBranchCoverage[20] = true;
 								break;
 							} else {
+								parseQuotedValueMultiDelimiterBranchCoverage[21] = true;
 								return;
 							}
 						} else {
+							parseQuotedValueMultiDelimiterBranchCoverage[22] = true;
 							return;
 						}
+					} else {
+						parseQuotedValueMultiDelimiterBranchCoverage[23] = true;
 					}
 					if (prev == quoteEscape && quoteEscape != '\0') {
+						parseQuotedValueMultiDelimiterBranchCoverage[24] = true;
 						output.appender.append(quoteEscape);
+					} else {
+						parseQuotedValueMultiDelimiterBranchCoverage[25] = true;
 					}
 					ch = output.appender.appendUntil(ch, input, quote, quoteEscape, escapeEscape);
 					prev = ch;
 					ch = input.nextChar();
 				} else {
+					parseQuotedValueMultiDelimiterBranchCoverage[26] = true;
 					processQuoteEscape();
 					prev = ch;
 					ch = input.nextChar();
 					if (unescaped && (ch == newLine || matchDelimiter())) {
+						parseQuotedValueMultiDelimiterBranchCoverage[27] = true;
 						return;
+					} else {
+						parseQuotedValueMultiDelimiterBranchCoverage[28] = true;
 					}
 				}
 			}
@@ -742,33 +783,51 @@ public final class CsvParser extends AbstractParser<CsvParserSettings> {
 
 		// handles whitespaces after quoted value: whitespaces are ignored. Content after whitespaces may be parsed if 'parseUnescapedQuotes' is enabled.
 		if (ch != newLine && ch <= ' ' && whitespaceRangeStart < ch && !matchDelimiterAfterQuote()) {
+			parseQuotedValueMultiDelimiterBranchCoverage[29] = true;
 			whitespaceAppender.reset();
 			do {
+				parseQuotedValueMultiDelimiterBranchCoverage[30] = true;
 				//saves whitespaces after value
 				whitespaceAppender.append(ch);
 				ch = input.nextChar();
 				//found a new line, go to next record.
 				if (ch == newLine) {
+					parseQuotedValueMultiDelimiterBranchCoverage[31] = true;
 					if (keepQuotes) {
+						parseQuotedValueMultiDelimiterBranchCoverage[32] = true;
 						output.appender.append(quote);
+					} else {
+						parseQuotedValueMultiDelimiterBranchCoverage[33] = true;
 					}
 					return;
+				} else {
+					parseQuotedValueMultiDelimiterBranchCoverage[34] = true;
 				}
 				if (matchDelimiterAfterQuote()) {
+					parseQuotedValueMultiDelimiterBranchCoverage[35] = true;
 					return;
+				} else {
+					parseQuotedValueMultiDelimiterBranchCoverage[36] = true;
 				}
 			} while (ch <= ' ' && whitespaceRangeStart < ch);
 
 			//there's more stuff after the quoted value, not only empty spaces.
 			if (parseUnescapedQuotes && !matchDelimiterAfterQuote()) {
+				parseQuotedValueMultiDelimiterBranchCoverage[37] = true;
 				if (output.appender instanceof DefaultCharAppender) {
+					parseQuotedValueMultiDelimiterBranchCoverage[38] = true;
 					//puts the quote before whitespaces back, then restores the whitespaces
 					output.appender.append(quote);
 					((DefaultCharAppender) output.appender).append(whitespaceAppender);
+				} else {
+					parseQuotedValueMultiDelimiterBranchCoverage[39] = true;
 				}
 				//the next character is not the escape character, put it there
 				if (parseUnescapedQuotesUntilDelimiter || ch != quote && ch != quoteEscape) {
+					parseQuotedValueMultiDelimiterBranchCoverage[40] = true;
 					output.appender.append(ch);
+				} else {
+					parseQuotedValueMultiDelimiterBranchCoverage[41] = true;
 				}
 
 				//sets this character as the previous character (may be escaping)
@@ -776,10 +835,16 @@ public final class CsvParser extends AbstractParser<CsvParserSettings> {
 				prev = ch;
 				parseQuotedValue();
 			} else if (keepQuotes) {
+				parseQuotedValueMultiDelimiterBranchCoverage[42] = true;
 				output.appender.append(quote);
+			} else {
+				parseQuotedValueMultiDelimiterBranchCoverage[43] = true;
 			}
 		} else if (keepQuotes && (!unescaped || quoteHandling == STOP_AT_CLOSING_QUOTE)) {
+			parseQuotedValueMultiDelimiterBranchCoverage[44] = true;
 			output.appender.append(quote);
+		} else {
+			parseQuotedValueMultiDelimiterBranchCoverage[45] = true;
 		}
 
 	}

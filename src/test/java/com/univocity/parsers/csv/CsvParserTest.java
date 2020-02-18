@@ -29,6 +29,26 @@ import static org.testng.Assert.*;
 
 public class CsvParserTest extends ParserTestCase {
 
+	@AfterTest
+	public void printingOfCoverage() {
+		System.out.println("=== DIY branch coverage for CsvParser::parseQuotedValueMultiDelimiter ===");
+		for(int i = 0; i < CsvParser.parseQuotedValueMultiDelimiterBranchCoverage.length; i++){
+			System.out.println("Branch " + i + ": " + CsvParser.parseQuotedValueMultiDelimiterBranchCoverage[i]);
+		}
+		System.out.println("Total branch coverage: " + getRatio(CsvParser.parseQuotedValueMultiDelimiterBranchCoverage));
+		System.out.println("======================================");
+	}
+
+	private double getRatio(boolean[] branchCoverage){
+		int tot = 0;
+		for (boolean b : branchCoverage){
+			if (b){
+				tot += 1;
+			}
+		}
+		return (double) tot / (double) branchCoverage.length;
+	}
+
 	@DataProvider(name = "testProvider")
 	public Object[][] testProvider() {
 		return new Object[][]{
