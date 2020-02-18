@@ -67,7 +67,7 @@ public class FixedWidthParser extends AbstractParser<FixedWidthParserSettings> {
 	private boolean initializeLookaheadInput = false;
 	private LookaheadCharInputReader lookaheadInput;
 	private final char wildcard;
-
+	public static boolean[] BranchCoverage = new boolean[13];
 	/**
 	 * The FixedWidthParser supports all settings provided by {@link FixedWidthParserSettings}, and requires this configuration to be properly initialized.
 	 *
@@ -280,18 +280,25 @@ public class FixedWidthParser extends AbstractParser<FixedWidthParserSettings> {
 
 	private void readValueUntilNewLine(boolean ignorePadding) {
 		if (ignoreTrailingWhitespace) {
+			BranchCoverage[0] = true;
 			if (alignment == FieldAlignment.RIGHT) {
+				BranchCoverage[1] = true;
 				while (length-- > 0 && ch != newLine) {
+					BranchCoverage[2] = true;
 					output.appender.appendIgnoringWhitespace(ch);
 					ch = input.nextChar();
 				}
 			} else if (ignorePadding) {
+				BranchCoverage[3] = true;
 				while (length-- > 0 && ch != newLine) {
+					BranchCoverage[4] = true;
 					output.appender.appendIgnoringWhitespaceAndPadding(ch, padding);
 					ch = input.nextChar();
 				}
 			} else {
+				BranchCoverage[5] = true;
 				while (length-- > 0 && ch != newLine) {
+					BranchCoverage[6] = true;
 					output.appender.append(ch);
 					ch = input.nextChar();
 				}
@@ -299,17 +306,23 @@ public class FixedWidthParser extends AbstractParser<FixedWidthParserSettings> {
 
 		} else {
 			if (alignment == FieldAlignment.RIGHT) {
+				BranchCoverage[7] = true;
 				while (length-- > 0 && ch != newLine) {
+					BranchCoverage[8] = true;
 					output.appender.append(ch);
 					ch = input.nextChar();
 				}
 			} else if (ignorePadding) {
+				BranchCoverage[9] = true;
 				while (length-- > 0 && ch != newLine) {
+					BranchCoverage[10] = true;
 					output.appender.appendIgnoringPadding(ch, padding);
 					ch = input.nextChar();
 				}
 			} else {
+				BranchCoverage[11] = true;
 				while (length-- > 0 && ch != newLine) {
+					BranchCoverage[12] = true;
 					output.appender.append(ch);
 					ch = input.nextChar();
 				}
